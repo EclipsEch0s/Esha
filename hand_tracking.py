@@ -1,7 +1,6 @@
 import cv2
 import mediapipe as mp
 
-# Test
 class HandTrack:
     # Initialising Vars
     def __init__(self, camID=0, frameHeight=600, frameWidht=600) -> None:
