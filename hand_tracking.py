@@ -13,7 +13,7 @@ class HandTrack:
         self.hands = self.mpHands.Hands()
 
     # HandTracking for a frame only
-    def HandTrack(self):
+    def HandTrackPerFrame(self):
         self.data, self.image = self.cap.read()
         self.image = cv2.cvtColor(cv2.flip(self.image, 1), cv2.COLOR_BGR2RGB)
         self.results = self.hands.process(self.image)
@@ -25,3 +25,8 @@ class HandTrack:
                 )
         cv2.imshow("HoloMat", self.image)
         cv2.waitKey(1)
+
+if __name__ == '__main__':
+    handTrack = HandTrack()
+    while True:
+        handTrack.HandTrackPerFrame()
