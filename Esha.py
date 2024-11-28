@@ -26,7 +26,7 @@ class Esha:
         completion = self.client.chat.completions.create(
             model="llama3-8b-8192",
             messages=self.messages,
-            temperature=1,
+            temperature=1.5,
             max_tokens=1024,
             top_p=1,
             stream=True,
