@@ -1,5 +1,6 @@
 import os
 import json
+import pyttsx3
 from groq import Groq
 
 
@@ -34,13 +35,21 @@ class Esha:
         )
         assistent_content = str()
         for chunk in completion:
-            # print(chunk.choices[0].delta.content or "", end="")
-            assistent_content += str(chunk.choices[0].delta.content or "")
+            word = chunk.choices[0].delta.content or ""
+            print(word, end="")
+            assistent_content += str(word)
         msg = {"role": "assistant", "content": assistent_content}
         self.messages.append(msg)
+        self.TextToSpeechWithPYttsx3(assistent_content)
         return assistent_content
-        # for chunk in completion:
-        # print(chunk.choices[0].delta.content or "", end="")
+
+    def TextToSpeechWithPYttsx3(self, sentence):
+        engine = pyttsx3.init()
+        engine.setProperty("rate", 150)
+        engine.setProperty("volume", 1.0)
+        engine.setProperty("voice", engine.getProperty("voices")[1].id)
+        engine.say(sentence)
+        engine.runAndWait()
 
     # For creating Folder
     def CreateFolder(self, path, folderName):
@@ -83,8 +92,6 @@ if __name__ == "__main__":
     try:
         while True:
             propmt = input("\n>> ")
-            ans = esha.Brain(prompt=propmt)
-            print(ans)
+            esha.Brain(prompt=propmt)
     except KeyboardInterrupt:
-        ans = esha.Brain("Bye")
-        print(ans)
+        esha.Brain("Bye")
