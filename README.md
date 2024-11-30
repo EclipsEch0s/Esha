@@ -1,5 +1,7 @@
 # E.S.H.A – Enhanced System Handling Assistant
 
+![Logo Of ESHA](https://github.com/EclipsEch0s/Esha/blob/main/ESHA_LOGO.png)
+
 E.S.H.A is advanced ai trained and fine-tuned on llama3 8b model. It can control your system, track your hand to get input and project the output on a work-bench or wall. It can assist you on creating and maintaining your projects. Want to create a project for your company or Hackathon ask E.S.H.A it will create a folder and working space on you. You want to add some description on the project and your to-do tell E.S.H.A she can have a track on it. Bored? Chat with E.S.H.A she will make you not feel alone and kill your boredom.
 
 ## Future of E.S.H.A
