@@ -1,6 +1,7 @@
 import os
 import json
 import pyttsx3
+import speech_recognition as sr
 from groq import Groq
 
 
@@ -19,6 +20,8 @@ class Esha:
 
         #  Setting the groq api
         self.client = Groq(api_key=data["groq"])
+        # Setting speech Recognizer
+        self.r = sr.Recognizer()
 
     # Use to get the response of a given prompt usign llama model of GROQ API
     def Brain(self, prompt):
@@ -50,6 +53,15 @@ class Esha:
         engine.setProperty("voice", engine.getProperty("voices")[1].id)
         engine.say(sentence)
         engine.runAndWait()
+
+    def SpeechToTextWithSpeech_recognition(self):
+        with sr.Microphone() as source:
+            self.r.adjust_for_ambient_noise(source, duration=0.2)
+            audio = self.r.listen(source)
+            text = self.r.recognize_google(audio)
+            text = text.lower()
+            print(text)
+            return text
 
     # For creating Folder
     def CreateFolder(self, path, folderName):
@@ -91,7 +103,14 @@ if __name__ == "__main__":
     esha = Esha()
     try:
         while True:
-            propmt = input("\n>> ")
-            esha.Brain(prompt=propmt)
+            try:
+                print("\nListening......")
+                prompt = esha.SpeechToTextWithSpeech_recognition()
+                if "Esha" in prompt or "isha" in prompt:
+                    esha.Brain(prompt=prompt)
+            except KeyboardInterrupt:
+                exit
+            except:
+                print("\nCan't understand the words!!")
     except KeyboardInterrupt:
         esha.Brain("Bye")
