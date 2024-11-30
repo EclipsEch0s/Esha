@@ -1,3 +1,4 @@
+import re
 import os
 import json
 import pyttsx3
@@ -43,7 +44,6 @@ class Esha:
             assistent_content += str(word)
         msg = {"role": "assistant", "content": assistent_content}
         self.messages.append(msg)
-        self.TextToSpeechWithPYttsx3(assistent_content)
         return assistent_content
 
     def TextToSpeechWithPYttsx3(self, sentence):
@@ -106,11 +106,39 @@ if __name__ == "__main__":
             try:
                 print("\nListening......")
                 prompt = esha.SpeechToTextWithSpeech_recognition()
+                # Only When Esha will be called if the user took her name
                 if "Esha" in prompt or "isha" in prompt:
-                    esha.Brain(prompt=prompt)
+                    reply = esha.Brain(prompt=prompt)
+                    # If it's a system message then Esha won't say it
+                    if "{system}" in reply:
+                        if "{CreateProject}" in reply:
+                            # Define regex patterns for the keys
+                            pattern = r"{projectName\s*=\s*'([^']+)'}|{desc\s*=\s*'([^']+)'}|{projectPath\s*=\s*'([^']+)'}"
+
+                            # Find matches
+                            matches = re.findall(pattern, reply)
+
+                            # Extract values from the match groups
+                            projectName = next((m[0] for m in matches if m[0]), None)
+                            desc = next((m[1] for m in matches if m[1]), None)
+                            projectPath = next((m[2] for m in matches if m[2]), None)
+
+                            # Print the results
+                            print(f"\nProject Name: {projectName}")
+                            print(f"\nDescription: {desc}")
+                            print(f"\nProject Path: {projectPath}")
+                            # Calling Create Project function
+                            esha.CreateFolder(folderName=projectName, path=projectPath)
+                            esha.TextToSpeechWithPYttsx3(esha.Brain("Say Project created or something like that"))
+                    else:
+                        esha.TextToSpeechWithPYttsx3(reply)
+
             except KeyboardInterrupt:
-                exit
-            except:
-                print("\nCan't understand the words!!")
+                reply = esha.Brain("Bye")
+                esha.TextToSpeechWithPYttsx3(reply)
+                exit()
+            except Exception as e:
+                print(f"[-]{e}")
     except KeyboardInterrupt:
-        esha.Brain("Bye")
+        reply = esha.Brain("Bye")
+        esha.TextToSpeechWithPYttsx3(reply)
