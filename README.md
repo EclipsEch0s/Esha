@@ -26,7 +26,7 @@ The whole software and hardware technology is belongs to [EclipsEch0s](https://g
 * [R.K (Sagnik Roy)](https://github.com/CoderSagnik00) - **Head of [EclipsEch0s](https://github.com/EclipsEch0s). Coded and made hardware of E.S.H.A**
 * Tanima Guria - **UI/UX Designer**
 * [Sanchari Ganguli](https://www.linkedin.com/in/sanchari-ganguly-394810338?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app) - **Presentation**
-* Tanima Guria - **Presentaion**
+* Sandhya Poddar - **Presentaion**
 * Sagnik Ghosh - **Invest**
 
 ## Acknoledgements
