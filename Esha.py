@@ -1,5 +1,3 @@
-import re
-import os
 import json
 import pyttsx3
 import speech_recognition as sr
@@ -11,18 +9,27 @@ class Esha:
         # Gettign the API Keys
         with open("secret_key.json") as file:
             data = json.load(file)
-        with open("./system.txt") as file:
-            self.messages = [
-                {
-                    "role": "system",
-                    "content": file.read(),
-                }
-            ]
-
+        self.SetSystemMessage()
         #  Setting the groq api
         self.client = Groq(api_key=data["groq"])
         # Setting speech Recognizer
         self.r = sr.Recognizer()
+
+    def SetSystemMessage(self):
+        with open("./system.txt") as file:
+            content = file.read()
+            with open("user.json") as userData:
+                data = json.load(userData)
+                content = content.replace("{name}", data["name"])
+                content = content.replace("{age}", data["age"])
+                content = content.replace("{gender}", data["gender"])
+                content = content.replace("{location}", data["location"])
+                self.messages = [
+                    {
+                        "role": "system",
+                        "content": content,
+                    }
+                ]
 
     # Use to get the response of a given prompt usign llama model of GROQ API
     def Brain(self, prompt):
@@ -62,83 +69,3 @@ class Esha:
             text = text.lower()
             print(text)
             return text
-
-    # For creating Folder
-    def CreateFolder(self, path, folderName):
-        try:
-            os.mkdir(os.path.join(path, folderName))
-            return True
-        except FileExistsError:
-            return "FileExists"
-        except PermissionError:
-            return "PermissionError"
-        except Exception:
-            return False
-
-    # For creating Files
-    def CreateFile(self, path, fileName):
-        filePath = os.path.join(path, fileName)
-        if os.path.exists(filePath):
-            return "FileExists"
-        with open(filePath, "w"):
-            return True
-
-    # List Files and Folders in a Directory
-    def ReturnFilesNFolderInAPath(self, path):
-        try:
-            filesNfolders = os.scandir(path)
-        except Exception:
-            return False, False
-        files = []
-        folders = []
-        for fileNfolder in filesNfolders:
-            if fileNfolder.is_file():
-                files.append(fileNfolder)
-            elif fileNfolder.is_dir():
-                folders.append(fileNfolder)
-        return files, folders
-
-
-if __name__ == "__main__":
-    esha = Esha()
-    try:
-        while True:
-            try:
-                print("\nListening......")
-                prompt = esha.SpeechToTextWithSpeech_recognition()
-                # Only When Esha will be called if the user took her name
-                if "Esha" in prompt or "isha" in prompt:
-                    reply = esha.Brain(prompt=prompt)
-                    # If it's a system message then Esha won't say it
-                    if "{system}" in reply:
-                        if "{CreateProject}" in reply:
-                            # Define regex patterns for the keys
-                            pattern = r"{projectName\s*=\s*'([^']+)'}|{desc\s*=\s*'([^']+)'}|{projectPath\s*=\s*'([^']+)'}"
-
-                            # Find matches
-                            matches = re.findall(pattern, reply)
-
-                            # Extract values from the match groups
-                            projectName = next((m[0] for m in matches if m[0]), None)
-                            desc = next((m[1] for m in matches if m[1]), None)
-                            projectPath = next((m[2] for m in matches if m[2]), None)
-
-                            # Print the results
-                            print(f"\nProject Name: {projectName}")
-                            print(f"\nDescription: {desc}")
-                            print(f"\nProject Path: {projectPath}")
-                            # Calling Create Project function
-                            esha.CreateFolder(folderName=projectName, path=projectPath)
-                            esha.TextToSpeechWithPYttsx3(esha.Brain("Say Project created or something like that"))
-                    else:
-                        esha.TextToSpeechWithPYttsx3(reply)
-
-            except KeyboardInterrupt:
-                reply = esha.Brain("Bye")
-                esha.TextToSpeechWithPYttsx3(reply)
-                exit()
-            except Exception as e:
-                print(f"[-]{e}")
-    except KeyboardInterrupt:
-        reply = esha.Brain("Bye")
-        esha.TextToSpeechWithPYttsx3(reply)
