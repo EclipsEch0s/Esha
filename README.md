@@ -14,7 +14,7 @@ pip install -r requirements.txt
 ```
 ## Run E.S.H.A
 ```
-python ./Esha.py
+python ./main.py
 ```
 ## Built With
 * [groq](https://console.groq.com/) for running the llama3-8b model
