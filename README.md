@@ -1,6 +1,33 @@
-# Esha
-<h2>Who is Esha?</h2>
-<p>ESHA --> Enhanced System Handling Assistant</p>
-<p>Esha is a personal assistant trained and fine tuned on llama model. Esha can help you in your daily basis works. It can interact with your system and do some amazing stuff. You can use Esha to manage your daily works, can create projects, can maintain your projects. Also Esha can assist you on those project with its data. Do you have any query ask Esha, she can help you with any questions. Esha will be connected through a external device which can be controled by touch. Due to this you can control Esha with more efficient</p>
-<h3> API KEY </h3>
-<p>Add all the API keys in secret_key.json file in "./" path</p>
+# E.S.H.A – Enhanced System Handling Assistant
+
+E.S.H.A is advanced ai trained and fine-tuned on llama3 8b model. It can control your system, track your hand to get input and project the output on a work-bench or wall. It can assist you on creating and maintaining your projects. Want to create a project for your company or Hackathon ask E.S.H.A it will create a folder and working space on you. You want to add some description on the project and your to-do tell E.S.H.A she can have a track on it. Bored? Chat with E.S.H.A she will make you not feel alone and kill your boredom.
+
+## Future of E.S.H.A
+#### In future
+* E.S.H.A can control your whole environment e.g. Phone, Laptop, Desktop
+* She can control multiple output device like projectors screens.
+* Will have multiple input devices so you don’t have to sit before only one camera to give E.S.H.A the input.
+
+## Installing
+```
+pip install -r requirements.txt
+```
+## Run E.S.H.A
+```
+python ./Esha.py
+```
+## Built With
+* [groq](https://console.groq.com/) for running the llama3-8b model
+
+## License
+The whole software and hardware technology is belongs to [EclipsEch0s](https://github.com/EclipsEch0s) without permission from them no one can use this.
+
+## Authors
+* [R.K (Sagnik Roy)](https://github.com/CoderSagnik00) - **Head of [EclipsEch0s](https://github.com/EclipsEch0s). Coded and made hardware of E.S.H.A**
+* Tanima Guria - **UI/UX Designer**
+* [Sanchari Ganguli](https://www.linkedin.com/in/sanchari-ganguly-394810338?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app) - **Presentation**
+* Tanima Guria - **Presentaion**
+* Sagnik Ghosh - **Invest**
+
+## Acknoledgements
+Special thanks to all the authors for investing their money. Without investment this project won't be successful
