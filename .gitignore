@@ -1,6 +1,7 @@
 # system json for data fetching
 paths.json
 user.json
+project.json
 # temporary python file for testing
 temp.py
 # Secret Key Api
