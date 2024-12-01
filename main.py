@@ -23,6 +23,11 @@ def CreateProject():
     print(f"Project Name: {projectName}")
     print(f"Description: {projectDesc}")
     print(f"Project Path: {projectPath}")
+    forbiddenProjectNames = ["RK", "rk", "r.k", "R.K"]
+    for i in forbiddenProjectNames:
+        if i == projectName:
+            esha.TextToSpeechWithPYttsx3("Sorry Can't create project with this name")
+            return
     chk = System.CreateFolder(folderName=projectName, path=projectPath)
     if chk == True:
         # Adding the project details in project.json to keep a track of it
@@ -35,7 +40,7 @@ def CreateProject():
 
         esha.TextToSpeechWithPYttsx3(
             esha.Brain(
-                "Say Project created if you need any help please ask me or something like that"
+                "Say Project created or something like that"
             )
         )
     elif chk == "ProjExist":
@@ -114,8 +119,6 @@ try:
                 if "{system}" in reply:
                     if "{CreateProject}" in reply:
                         CreateProject()
-                    if "{GetProjDet" in reply:
-                        GetProjDet()
 
                 else:
                     esha.TextToSpeechWithPYttsx3(reply)
