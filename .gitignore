@@ -2,6 +2,7 @@
 paths.json
 user.json
 project.json
+memory.json
 # temporary python file for testing
 temp.py
 # Secret Key Api
