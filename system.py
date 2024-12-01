@@ -45,7 +45,6 @@ class System:
     @staticmethod
     def OpenApplication(applicationName):
         startMenu = Path(os.environ["APPDATA"]) / "Microsoft" / "Windows" / "Start Menu" / "Programs"
-        startMenu = "C:\\Users\\Sagnik\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\"
         files, folder = System.ReturnFilesNFolderInAPath(startMenu) 
         for f in folder:
             if f == applicationName:
