@@ -43,7 +43,7 @@ def CreateProject():
                 "Say Project created or something like that"
             )
         )
-    elif chk == "ProjExist":
+    elif chk == "FolderExist":
         esha.TextToSpeechWithPYttsx3(
             esha.Brain("Say project already exist or something like that")
         )
@@ -60,6 +60,40 @@ def CreateProject():
             )
         )
 
+def CreateFolder():
+    # Regex pattern to extract key-value pairs
+    pattern = r"\{(\w+)=([^\}]+)\}"
+
+    # Find all matches
+    matches = re.findall(pattern, reply)
+
+    # Create a dictionary from the matches
+    project = {key: value for key, value in matches}
+
+    # Access the project details
+    folderName = project.get("folderName")
+    folderPath = project.get("folderPath")
+
+    print(f"Folder Name: {folderName}")
+    print(f"Folder Path: {folderPath}") 
+
+    chk = System.CreateFolder(folderName=folderName, path=folderPath)
+    if chk == True:
+        esha.TextToSpeechWithPYttsx3(
+            esha.Brain("Say I created the folder for you or something like that")
+        )
+    elif chk == "FolderExist":
+        esha.TextToSpeechWithPYttsx3(
+            esha.Brain("Say looks like the folder is already presented or something like that")
+        )
+    elif chk == "PermissionError":
+        esha.TextToSpeechWithPYttsx3(
+            esha.Brain("Say I don't have proper permsion to create the folder or something like that")
+        )
+    elif chk == False:
+        esha.TextToSpeechWithPYttsx3(
+            esha.Brain("Say OOps something went wrong I couldn't create the folder or something like that")
+        )
 
 def GetProjDet():
     # Regex pattern to extract the value inside the parentheses
@@ -119,6 +153,8 @@ try:
                 if "{system}" in reply:
                     if "{CreateProject}" in reply:
                         CreateProject()
+                    if "{CreateFolder}" in reply:
+                        CreateFolder()
 
                 else:
                     esha.TextToSpeechWithPYttsx3(reply)
