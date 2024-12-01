@@ -1,6 +1,7 @@
 import json
 import pyttsx3
 import speech_recognition as sr
+from pathlib import Path
 from groq import Groq
 
 
@@ -14,6 +15,10 @@ class Esha:
         self.client = Groq(api_key=data["groq"])
         # Setting speech Recognizer
         self.r = sr.Recognizer()
+        # Setting up the Paths
+        self.SetPaths()
+        # Setting Up Existing project details created by ESHA
+        self.SetExistingProjectDetails()
 
     def SetSystemMessage(self):
         with open("./system.txt") as file:
@@ -69,3 +74,25 @@ class Esha:
             text = text.lower()
             print(text)
             return text
+
+    def SetPaths(self):
+        home = Path.home()
+        desktop = Path.home() / "Desktop"
+        documents = Path.home() / "Documents"
+        downloads = Path.home() / "Downloads"
+        self.Brain(
+            f"Set Desktop path = {desktop}, home path = {home}, documents path = {documents}, downloads path = {downloads}"
+        )
+        # For custom paths 
+        with open("paths.json") as file:
+            data = json.load(file)
+        for i in data:
+            self.Brain(
+                f"Set {i} path = {data[i]}"
+            )
+
+    def SetExistingProjectDetails(self):
+        with open("project.json") as file:
+            data = json.load(file)
+        for i in data:
+            self.Brain(f"Set description of the project {i} is {data[i]['desc']} and location is {data[i]['path']}")
