@@ -11,7 +11,7 @@ class System:
             os.mkdir(os.path.join(path, folderName))
             return True
         except FileExistsError:
-            return "ProjExist"
+            return "FolderExist"
         except PermissionError:
             return "PermissionError"
         except Exception:
