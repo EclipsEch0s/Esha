@@ -5,9 +5,10 @@ import signal
 import sys
 
 from esha import Esha
+esha = Esha()
 
 
-def CreateProject():
+def CreateProject(reply):
     # Regex pattern to extract key-value pairs
     pattern = r"\{(\w+)=([^\}]+)\}"
 
@@ -55,8 +56,38 @@ def CreateProject():
         )
 
 
+def CreateFolder(reply):
+    # Regular expression to find folderName and folderPath
+    pattern = r"\{folderName=([^\}]+)\}|\{folderPath=([^\}]+)\}"
 
-esha = Esha()
+    # Find all matches
+    matches = re.findall(pattern, reply)
+
+    folderName = next((match[0] for match in matches if match[0]), None)
+    folderPath = next((match[1] for match in matches if match[1]), None)
+
+    print(f"Folder Name = {folderName}")
+    print(f"Folder Path = {folderPath}")
+
+    chk = System.CreateFolder(folderName=folderName, path=folderPath)
+    if chk == True:
+        esha.TextToSpeechWithPYttsx3(
+            esha.Brain("Say Folder created or something like that")
+        )
+    elif chk =="FolderExist":
+        esha.TextToSpeechWithPYttsx3(
+            esha.Brain("Say folder alreay exists or something like that")
+        )
+    elif chk == "PermissionError":
+        esha.TextToSpeechWithPYttsx3(
+            esha.Brain("Say sorry I don't have proper permission or something like that")
+        )
+    elif chk == False:
+        esha.TextToSpeechWithPYttsx3(
+            esha.Brain("Say oops something went wrong can't create the folder for now or something like that")
+        )
+
+
 
 def handle_interrupt(signal, frame):
     esha.ExitEsha()
@@ -77,7 +108,9 @@ while True:
             # If it's a system message then Esha won't say it
             if "{system}" in reply:
                 if "{CreateProject}" in reply:
-                    CreateProject()
+                    CreateProject(reply)
+                if "{CreateFolder}" in reply:
+                    CreateFolder(reply)
 
             else:
                 esha.TextToSpeechWithPYttsx3(reply)
