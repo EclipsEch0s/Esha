@@ -22,7 +22,10 @@ class Esha:
         self.r = sr.Recognizer()
    
         # To load the memory of E.S.H.A
-        self.LoadMemory()
+        try:
+            self.LoadMemory()
+        except:
+            pass
     
     def SetSystemMessage(self):
         with open("./system.txt") as file:
