@@ -3,8 +3,8 @@ paths.json
 user.json
 project.json
 memory.json
-# temporary python file for testing
-temp.py
+# temporary files for testing
+temp*
 # Secret Key Api
 secret_key.json
 # Byte-compiled / optimized / DLL files
