@@ -17,11 +17,11 @@ class App:
         self.projectorX, self.projectorY = self.projector.x, self.projector.y
         self.root.title("E.S.H.A")
         
-        # Set the current project folder name
-        self.DisplayProjectFolder("xyz")
+        # # Set the current project folder name
+        # self.DisplayProjectFolder("xyz")
 
         # Configure full-screen mode
-        self.SetupFullscreen()
+        # self.SetupFullscreen()
 
         # Load background and logo
         self.backgroundPath = os.path.join("res", "bgimg.jpg")
@@ -55,19 +55,23 @@ class App:
         """Periodically call the CreateIcon function."""
        
         with open("icon.json") as file:
-            data = json.load(file)
+            try:
+                data = json.load(file)
+                for d in data:
+                    icon_name = d['iconName']
+                    icon_path = d['iconPath']
+                    dir_path = d['dirPath']
+                    iconAlreadyPresent = False
+                    for i in self.pathOfIconsInScreen:
+                        if i['iconName'] == icon_name:
+                            iconAlreadyPresent = True
+                    if not iconAlreadyPresent:
+                        # Call the CreateIcon method
+                        self.CreateIcon(icon_name, icon_path, dir_path)
+
+            except:
+                pass
             # Example icon data, replace with your actual data
-        for d in data:
-            icon_name = d['iconName']
-            icon_path = d['iconPath']
-            dir_path = d['dirPath']
-            iconAlreadyPresent = False
-            for i in self.pathOfIconsInScreen:
-                if i['iconName'] == icon_name:
-                    iconAlreadyPresent = True
-            if not iconAlreadyPresent:
-                # Call the CreateIcon method
-                self.CreateIcon(icon_name, icon_path, dir_path)
         
         # Schedule this function to run again after 5000ms (5 seconds)
         self.root.after(200, self.create_icons_periodically)
@@ -75,7 +79,7 @@ class App:
     def GetMonitor(self, monitorId=1):
         """Retrieve the second monitor details."""
         monitors = get_monitors()
-        if len(monitors) < 2:
+        if len(monitors) < 1:
             print("Error: A second screen (projector) is not detected.")
             sys.exit(1)
         return monitors[monitorId]

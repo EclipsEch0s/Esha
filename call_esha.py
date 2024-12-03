@@ -1,9 +1,12 @@
 import re
+import os
+import json
 from system import System
 import signal
 import sys
 
 from esha import Esha
+
 esha = Esha()
 
 
@@ -33,9 +36,7 @@ def CreateProject(reply):
     chk = System.CreateFolder(folderName=projectName, path=projectPath)
     if chk == True:
         esha.TextToSpeechWithPYttsx3(
-            esha.Brain(
-                "Say Project created or something like that"
-            )
+            esha.Brain("Say Project created or something like that")
         )
     elif chk == "ProjExist":
         esha.TextToSpeechWithPYttsx3(
@@ -73,27 +74,77 @@ def CreateFolder(reply):
         esha.TextToSpeechWithPYttsx3(
             esha.Brain("Say Folder created or something like that")
         )
-    elif chk =="FolderExist":
+    elif chk == "FolderExist":
         esha.TextToSpeechWithPYttsx3(
             esha.Brain("Say folder alreay exists or something like that")
         )
     elif chk == "PermissionError":
         esha.TextToSpeechWithPYttsx3(
-            esha.Brain("Say sorry I don't have proper permission or something like that")
+            esha.Brain(
+                "Say sorry I don't have proper permission or something like that"
+            )
         )
     elif chk == False:
         esha.TextToSpeechWithPYttsx3(
-            esha.Brain("Say oops something went wrong can't create the folder for now or something like that")
+            esha.Brain(
+                "Say oops something went wrong can't create the folder for now or something like that"
+            )
         )
 
+
+def OpenProj(reply):
+    # Regular expression pattern to match projName and projPath
+    pattern = r"\{projName=(\w+)\} \{projPath=([^\}]+)\}"  # Find the matches
+    match = re.search(pattern, reply)
+
+    if match:
+        proj_name = match.group(1)
+
+        proj_path = match.group(2)
+        print(f"projName: {proj_name}")
+        print(f"projPath: {proj_path}")
+
+        files, folders = System.ReturnFilesNFolderInAPath(
+            os.path.join(proj_path, proj_name)
+        )
+        if files == False and folders == False:
+            esha.TextToSpeechWithPYttsx3(
+                esha.Brain("Say OOps Can't open the project or something like that")
+            )
+        else:
+            esha.TextToSpeechWithPYttsx3(
+                esha.Brain("Say Project Opened or Something like that")
+            )
+            data = []
+            for f in files:
+                iconPath = os.path.join("res", "file.png")
+                dirPath = os.path.join(proj_path, proj_name)
+                iconName = f
+                d = {"iconName": iconName, "iconPath": iconPath, "dirPath": dirPath}
+                data.append(d)
+                print(f)
+            for f in folders:
+                dirPath = os.path.join(proj_path, proj_name)
+                iconName = f
+                iconPath = os.path.join("res", "folder.png")
+                d = {"iconName": iconName, "iconPath": iconPath, "dirPath": dirPath}
+                data.append(d)
+                with open("icon.json", "a") as file:
+                    json.dump(data, file, indent=4)
+                
+                print(data)
+    else:
+        print("No match found.")
 
 
 def handle_interrupt(signal, frame):
     esha.ExitEsha()
     sys.exit(0)  # Exit the program gracefully
 
+
 # Set up signal handler for Ctrl + C
 signal.signal(signal.SIGINT, handle_interrupt)
+
 
 def CallEsha():
     try:
@@ -108,8 +159,10 @@ def CallEsha():
             if "{system}" in reply:
                 if "{CreateProject}" in reply:
                     CreateProject(reply)
-                if "{CreateFolder}" in reply:
+                elif "{CreateFolder}" in reply:
                     CreateFolder(reply)
+                elif "{OpenProj}" in reply:
+                    OpenProj(reply)
 
             else:
                 esha.TextToSpeechWithPYttsx3(reply)
