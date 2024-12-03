@@ -3,6 +3,7 @@ paths.json
 user.json
 project.json
 memory.json
+icon.json
 # temporary files for testing
 temp*
 # Secret Key Api

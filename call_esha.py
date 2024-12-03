@@ -1,4 +1,3 @@
-import json
 import re
 from system import System
 import signal
@@ -96,7 +95,7 @@ def handle_interrupt(signal, frame):
 # Set up signal handler for Ctrl + C
 signal.signal(signal.SIGINT, handle_interrupt)
 
-while True:
+def CallEsha():
     try:
         # print("\nListening......")
         # prompt = esha.SpeechToTextWithSpeech_recognition()
@@ -117,4 +116,3 @@ while True:
 
     except Exception as e:
         print(f"[-]{e}")
-
