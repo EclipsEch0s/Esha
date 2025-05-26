@@ -171,3 +171,7 @@ class Esha:
         # This function is typically for local microphone input, not for a web API.
         # Frontend will handle speech-to-text if needed.
         return "" # Placeholder as it's not used in this API context
+
+if __name__ == "__main__":
+    esha = Esha()
+    esha.Brain("Hi");
