@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import ChatBox from './components/ChatBox';
 import { RiSendPlaneFill } from "react-icons/ri";
+import Image from 'next/image';
+import Rings from './components/Rings';
 
 interface ChatMessage {
   sender: "user" | "esha";
@@ -66,6 +68,14 @@ const Home: React.FC = () => {
           </button>
         </form>
       </div>
+      {/* <Image
+        src="/ESHA_LOGO.png"   // Path relative to the public/ folder
+        alt="My photo"
+        width={300}                 // Required width in pixels
+        height={200}                // Required height in pixels
+        className='breathing absolute bottom-0 left-0' */}
+      {/* /> */}
+      <Rings />
     </div>
   );
 };
