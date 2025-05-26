@@ -12,7 +12,7 @@ const UserChat: React.FC<UserChatProps> = ({ userName = "user", msg }) => {
             </div>
             <div className="chat-header">
                 {userName}
-                <time className="text-xs opacity-50">12:46</time>
+                {/* <time className="text-xs opacity-50">12:46</time> */}
             </div>
             <div className="chat-bubble">{msg}</div>
         </div>
