@@ -169,3 +169,11 @@ def CallEsha():
 
     except Exception as e:
         print(f"[-]{e}")
+
+
+if __name__=="__main__":
+    try:
+        while True:
+            CallEsha();
+    except KeyboardInterrupt:
+       esha.Brain("Bye") 
